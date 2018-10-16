@@ -7,7 +7,8 @@ const app = express();
 const mongoose = require("mongoose");
 
 let mongoDB =
-  "It's a secret !";
+  process.env.MONGODB_URI ||
+  "";
 
 mongoose.connect(
   mongoDB,

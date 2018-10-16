@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "./App.css";
 import Product from "./Product";
+import "./App.css";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 
@@ -15,12 +15,15 @@ class Inventory extends Component {
       productFormModal: false,
       name: "",
       snackMessage: "",
-      quantity: ""
+      quantity: "",
+      unitType: "",
+      displaySnackBar: false
     };
 
     this.handleNewProduct = this.handleNewProduct.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleQuantity = this.handleQuantity.bind(this);
+    this.handleUnitType = this.handleUnitType.bind(this);
     this.handleSnackbar = this.handleSnackbar.bind(this);
   }
 
@@ -37,14 +40,16 @@ class Inventory extends Component {
     var newProduct = {
       name: this.state.name,
       quantity: this.state.quantity,
+      unitType: this.state.unitType
     };
 
     axios
       .post(HOST + `/products/create`, newProduct)
-      .then(
-        response => {
+      .then(response => {
+        console.log(response);
         this.setState({ snackMessage: "Product Added Successfully!" });
         this.handleSnackbar();
+        setTimeout(() => window.location.reload(), 3000);
       })
       .catch(err => {
         console.log(err);
@@ -52,9 +57,10 @@ class Inventory extends Component {
         this.handleSnackbar();
       });
   };
+
   handleEditProduct = editProduct => {
     axios
-      .put(HOST + `/products`, editProduct)
+      .put(HOST + `/products/` + editProduct._id + `/update`, editProduct)
       .then(response => {
         this.setState({ snackMessage: "Product Updated Successfully!" });
         this.handleSnackbar();
@@ -63,7 +69,24 @@ class Inventory extends Component {
       .catch(err => {
         console.log(err);
         this.setState({ snackMessage: "Product Update Failed!" });
-          this.handleSnackbar();
+        this.handleSnackbar();
+        return false;
+      });
+  };
+
+  handleDeleteProduct = deleteProduct => {
+    axios
+      .delete(HOST + `/products/` + deleteProduct._id + `/delete`)
+      .then(response => {
+        this.setState({ snackMessage: "Product Deleted Successfully!" });
+        this.handleSnackbar();
+        setTimeout(() => window.location.reload(), 3000);
+        return true;
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ snackMessage: "Product Delete Failed!" });
+        this.handleSnackbar();
         return false;
       });
   };
@@ -71,15 +94,18 @@ class Inventory extends Component {
   handleName = e => {
     this.setState({ name: e.target.value });
   };
+
   handleQuantity = e => {
     this.setState({ quantity: e.target.value });
   };
+
+  handleUnitType = e => {
+    this.setState({ unitType: e.target.value });
+  };
+
   handleSnackbar = () => {
-    var bar = document.getElementById("snackbar");
-    bar.className = "show";
-    setTimeout(function() {
-      bar.className = bar.className.replace("show", "");
-    }, 3000);
+    this.setState({ displaySnackBar: true });
+    setTimeout(() => this.setState({ displaySnackBar: false }), 3000);
   };
 
   render() {
@@ -89,8 +115,13 @@ class Inventory extends Component {
       if (products.length === 0) {
         return <tr>{products}</tr>;
       } else {
-        return products.map(product => (
-          <Product {...product} onEditProduct={this.handleEditProduct} />
+        return products.map((product, index) => (
+          <Product
+            {...product}
+            key={index}
+            onEditProduct={this.handleEditProduct}
+            onDeleteProduct={this.handleDeleteProduct}
+          />
         ));
       }
     };
@@ -102,7 +133,7 @@ class Inventory extends Component {
             className="btn btn-success pull-right"
             onClick={() => this.setState({ productFormModal: true })}
           >
-            <i className="glyphicon glyphicon-plus" /> Add New Item
+            Add New Item
           </Button>
           <br />
           <br />
@@ -111,7 +142,9 @@ class Inventory extends Component {
             <thead>
               <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Quantity on Hand</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
                 <th />
               </tr>
             </thead>
@@ -120,6 +153,7 @@ class Inventory extends Component {
         </div>
 
         <Modal show={this.state.productFormModal}>
+          <br /> <br /> <br /> <br /> <br /> <br />
           <Modal.Header>
             <Modal.Title>Add Product</Modal.Title>
           </Modal.Header>
@@ -139,19 +173,31 @@ class Inventory extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label className="col-md-4 control-label" htmlFor="quantity_on_hand">
-                  Quantity On Hand
+                <label className="col-md-4 control-label" htmlFor="quantity">
+                  Quantity
                 </label>
                 <div className="col-md-4">
                   <input
-                    name="quantity_on_hand"
-                    placeholder="Quantity On Hand"
+                    name="quantity"
+                    placeholder="Quantity"
                     onChange={this.handleQuantity}
                     className="form-control"
                   />
                 </div>
               </div>
-              <br /> <br /> <br />
+              <div className="form-group">
+                <label className="col-md-4 control-label" htmlFor="unittype">
+                  Unit Type
+                </label>
+                <div className="col-md-4">
+                  <input
+                    name="unittype"
+                    placeholder="Unit type"
+                    onChange={this.handleUnitType}
+                    className="form-control"
+                  />
+                </div>
+              </div>
             </form>
           </Modal.Body>
           <Modal.Footer>
@@ -161,7 +207,9 @@ class Inventory extends Component {
             <Button onClick={this.handleNewProduct}>Submit</Button>
           </Modal.Footer>
         </Modal>
-        <div id="snackbar">{snackMessage}</div>
+        {this.state.displaySnackBar ? (
+          <div id="snackbar">{snackMessage}</div>
+        ) : null}
       </div>
     );
   }
