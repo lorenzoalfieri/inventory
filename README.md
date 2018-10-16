@@ -1,14 +1,20 @@
-# Simple inventory ingredients management
+# Simple inventory management
 
 Trying to do an inventory using nodeJs, express and mongoose.
 
 Using react for front.
 
-# TODO List
+# How to use it
 
-## Front end
-- E2E tests with testcafe
+Go in the server folder, and use yarn and yarn start. If you want to use your custom mongoDB link u can add it in app.js
+
+Then open an other terminal and do the same with client.
+
+# Possible upgrade
 
 ## Back end
 - Add category
-- unit tests with mocha and chai
+- handle image of products
+
+## Front end
+- Add more reactive feature (ex: click on name to modify, arrow to add or remove quantity)

@@ -1,7 +1,6 @@
 const Product = require("../models/product.model");
 
 exports.product_create = function(req, res) {
-  console.log(req.body.name, req.body.quantity);
   let product = new Product({
     name: req.body.name,
     quantity: req.body.quantity,
@@ -10,19 +9,17 @@ exports.product_create = function(req, res) {
 
   product.save(function(err) {
     if (err) {
-      console.log("failed : ", err);
       res.status(400);
       res.send(err);
       return;
     }
-    res.send("Product Created successfully");
+    res.send({ message: "Product Created successfully!", product });
   });
 };
 
 exports.products_list = function(req, res) {
   Product.find({}, function(err, products) {
     if (err) {
-      console.log("failed : ", err);
       res.status(400);
       res.send(err);
       return;
@@ -34,7 +31,6 @@ exports.products_list = function(req, res) {
 exports.product_details = function(req, res) {
   Product.findById(req.params.id, function(err, product) {
     if (err) {
-      console.log("failed : ", err);
       res.status(400);
       res.send(err);
       return;
@@ -51,21 +47,19 @@ exports.product_update = function(req, res) {
     if (err) {
       res.status(400);
       res.send(err);
-      console.log("failed : ", err);
       return;
     }
-    res.send("Product udpated.");
+    res.send({ message: "Product Udpated successfully!", product });
   });
 };
 
 exports.product_delete = function(req, res) {
-  Product.findByIdAndRemove(req.params.id, function(err) {
+  Product.findByIdAndRemove(req.params.id, function(err, result) {
     if (err) {
-      console.log("failed : ", err);
       res.status(400);
       res.send(err);
       return;
     }
-    res.send("Deleted successfully!");
+    res.send({ message: "Product Deleted successfully!", result });
   });
 };

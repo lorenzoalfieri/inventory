@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 
 let mongoDB =
   process.env.MONGODB_URI ||
-  "mongodb://admin:admin1234@ds125723.mlab.com:25723/testmongooselba";
+  "mongodb://<user>:<password>@ds125723.mlab.com:25723/testmongooselba";
 
 mongoose.connect(
   mongoDB,
@@ -43,3 +43,5 @@ let port = 8080;
 app.listen(port, () => {
   console.log("Server is up and running on port number " + port);
 });
+
+module.exports = app;

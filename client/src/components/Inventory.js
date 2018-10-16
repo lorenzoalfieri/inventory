@@ -205,10 +205,15 @@ class Inventory extends Component {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button id="closeform" onClick={() => this.setState({ productFormModal: false })}>
+            <Button
+              id="closeform"
+              onClick={() => this.setState({ productFormModal: false })}
+            >
               Close
             </Button>
-            <Button id="submitform" onClick={this.handleNewProduct}>Submit</Button>
+            <Button id="submitform" onClick={this.handleNewProduct}>
+              Submit
+            </Button>
           </Modal.Footer>
         </Modal>
         {this.state.displaySnackBar ? (

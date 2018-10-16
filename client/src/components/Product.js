@@ -81,14 +81,18 @@ class Product extends Component {
         <td>
           <Button
             className="btn btn-info"
-            id={"edit" + name + quantity }
+            id={"edit" + name + quantity}
             onClick={() => this.setState({ productModal: true })}
           >
             Edit
           </Button>
         </td>
         <td>
-          <Button id={"delete" + name + quantity } className="btn btn-danger" onClick={this.handleDeleteProduct}>
+          <Button
+            id={"delete" + name + quantity}
+            className="btn btn-danger"
+            onClick={this.handleDeleteProduct}
+          >
             Delete
           </Button>
         </td>
@@ -145,7 +149,9 @@ class Product extends Component {
             <Button onClick={() => this.setState({ productModal: false })}>
               Close
             </Button>
-            <Button id="submitform" onClick={this.handleEditProduct}>Update</Button>
+            <Button id="submitform" onClick={this.handleEditProduct}>
+              Update
+            </Button>
           </Modal.Footer>
         </Modal>
       </tr>
