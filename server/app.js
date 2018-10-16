@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 
 let mongoDB =
   process.env.MONGODB_URI ||
-  "";
+  "mongodb://admin:admin1234@ds125723.mlab.com:25723/testmongooselba";
 
 mongoose.connect(
   mongoDB,

@@ -81,13 +81,14 @@ class Product extends Component {
         <td>
           <Button
             className="btn btn-info"
+            id={"edit" + name + quantity }
             onClick={() => this.setState({ productModal: true })}
           >
             Edit
           </Button>
         </td>
         <td>
-          <Button className="btn btn-info" onClick={this.handleDeleteProduct}>
+          <Button id={"delete" + name + quantity } className="btn btn-danger" onClick={this.handleDeleteProduct}>
             Delete
           </Button>
         </td>
@@ -103,6 +104,7 @@ class Product extends Component {
                 <label className="col-md-4 control-label">Name</label>
                 <div className="col-md-4">
                   <input
+                    id="name"
                     name="name"
                     placeholder="Name"
                     onChange={this.handleName}
@@ -115,6 +117,7 @@ class Product extends Component {
                 <label className="col-md-4 control-label">Quantity</label>
                 <div className="col-md-4">
                   <input
+                    id="quantity"
                     name="quantity"
                     placeholder="Quantity"
                     onChange={this.handleQuantity}
@@ -127,8 +130,9 @@ class Product extends Component {
                 <label className="col-md-4 control-label">Unit type</label>
                 <div className="col-md-4">
                   <input
+                    id="unittype"
                     name="unittype"
-                    placeholder="Kg, ..."
+                    placeholder="Unit type"
                     onChange={this.handleUnitType}
                     value={newUnitType}
                     className="form-control"
@@ -141,7 +145,7 @@ class Product extends Component {
             <Button onClick={() => this.setState({ productModal: false })}>
               Close
             </Button>
-            <Button onClick={this.handleEditProduct}>Update</Button>
+            <Button id="submitform" onClick={this.handleEditProduct}>Update</Button>
           </Modal.Footer>
         </Modal>
       </tr>

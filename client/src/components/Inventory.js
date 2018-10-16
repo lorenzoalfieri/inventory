@@ -49,11 +49,11 @@ class Inventory extends Component {
         console.log(response);
         this.setState({ snackMessage: "Product Added Successfully!" });
         this.handleSnackbar();
-        setTimeout(() => window.location.reload(), 3000);
+        setTimeout(() => window.location.reload(), 1000);
       })
       .catch(err => {
         console.log(err);
-        this.setState({ snackMessage: "Product failed to save" });
+        this.setState({ snackMessage: "Product failed to save!" });
         this.handleSnackbar();
       });
   };
@@ -80,7 +80,7 @@ class Inventory extends Component {
       .then(response => {
         this.setState({ snackMessage: "Product Deleted Successfully!" });
         this.handleSnackbar();
-        setTimeout(() => window.location.reload(), 3000);
+        setTimeout(() => window.location.reload(), 1000);
         return true;
       })
       .catch(err => {
@@ -105,7 +105,7 @@ class Inventory extends Component {
 
   handleSnackbar = () => {
     this.setState({ displaySnackBar: true });
-    setTimeout(() => this.setState({ displaySnackBar: false }), 3000);
+    setTimeout(() => this.setState({ displaySnackBar: false }), 1000);
   };
 
   render() {
@@ -131,6 +131,7 @@ class Inventory extends Component {
         <div className="container">
           <Button
             className="btn btn-success pull-right"
+            id="addnewitem"
             onClick={() => this.setState({ productFormModal: true })}
           >
             Add New Item
@@ -165,6 +166,7 @@ class Inventory extends Component {
                 </label>
                 <div className="col-md-4">
                   <input
+                    id="name"
                     name="name"
                     placeholder="Name"
                     className="form-control"
@@ -178,6 +180,7 @@ class Inventory extends Component {
                 </label>
                 <div className="col-md-4">
                   <input
+                    id="quantity"
                     name="quantity"
                     placeholder="Quantity"
                     onChange={this.handleQuantity}
@@ -191,6 +194,7 @@ class Inventory extends Component {
                 </label>
                 <div className="col-md-4">
                   <input
+                    id="unittype"
                     name="unittype"
                     placeholder="Unit type"
                     onChange={this.handleUnitType}
@@ -201,10 +205,10 @@ class Inventory extends Component {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.setState({ productFormModal: false })}>
+            <Button id="closeform" onClick={() => this.setState({ productFormModal: false })}>
               Close
             </Button>
-            <Button onClick={this.handleNewProduct}>Submit</Button>
+            <Button id="submitform" onClick={this.handleNewProduct}>Submit</Button>
           </Modal.Footer>
         </Modal>
         {this.state.displaySnackBar ? (

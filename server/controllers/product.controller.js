@@ -11,6 +11,8 @@ exports.product_create = function(req, res) {
   product.save(function(err) {
     if (err) {
       console.log("failed : ", err);
+      res.status(400);
+      res.send(err);
       return;
     }
     res.send("Product Created successfully");
@@ -21,6 +23,8 @@ exports.products_list = function(req, res) {
   Product.find({}, function(err, products) {
     if (err) {
       console.log("failed : ", err);
+      res.status(400);
+      res.send(err);
       return;
     }
     res.send(products);
@@ -31,6 +35,8 @@ exports.product_details = function(req, res) {
   Product.findById(req.params.id, function(err, product) {
     if (err) {
       console.log("failed : ", err);
+      res.status(400);
+      res.send(err);
       return;
     }
     res.send(product);
@@ -43,6 +49,8 @@ exports.product_update = function(req, res) {
     product
   ) {
     if (err) {
+      res.status(400);
+      res.send(err);
       console.log("failed : ", err);
       return;
     }
@@ -54,6 +62,8 @@ exports.product_delete = function(req, res) {
   Product.findByIdAndRemove(req.params.id, function(err) {
     if (err) {
       console.log("failed : ", err);
+      res.status(400);
+      res.send(err);
       return;
     }
     res.send("Deleted successfully!");
