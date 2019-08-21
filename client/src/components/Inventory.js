@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Product from "./Product";
-import "./App.css";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 
@@ -27,7 +26,7 @@ class Inventory extends Component {
     this.handleSnackbar = this.handleSnackbar.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     var url = HOST + `/products`;
     axios.get(url).then(response => {
       this.setState({ products: response.data });
@@ -46,10 +45,11 @@ class Inventory extends Component {
     axios
       .post(HOST + `/products/create`, newProduct)
       .then(response => {
-        console.log(response);
         this.setState({ snackMessage: "Product Added Successfully!" });
         this.handleSnackbar();
-        setTimeout(() => window.location.reload(), 1000);
+        let products = this.state.products;
+        products.push(response.data.product);
+        this.setState({products});
       })
       .catch(err => {
         console.log(err);
@@ -64,13 +64,11 @@ class Inventory extends Component {
       .then(response => {
         this.setState({ snackMessage: "Product Updated Successfully!" });
         this.handleSnackbar();
-        return true;
       })
       .catch(err => {
         console.log(err);
         this.setState({ snackMessage: "Product Update Failed!" });
         this.handleSnackbar();
-        return false;
       });
   };
 
@@ -80,14 +78,14 @@ class Inventory extends Component {
       .then(response => {
         this.setState({ snackMessage: "Product Deleted Successfully!" });
         this.handleSnackbar();
-        setTimeout(() => window.location.reload(), 1000);
-        return true;
+        let products = this.state.products;
+        products = products.filter(product => product._id !== response.data.product._id);
+        this.setState({products});
       })
       .catch(err => {
         console.log(err);
         this.setState({ snackMessage: "Product Delete Failed!" });
         this.handleSnackbar();
-        return false;
       });
   };
 
@@ -105,7 +103,7 @@ class Inventory extends Component {
 
   handleSnackbar = () => {
     this.setState({ displaySnackBar: true });
-    setTimeout(() => this.setState({ displaySnackBar: false }), 1000);
+    setTimeout(() => this.setState({ displaySnackBar: false }), 3000);
   };
 
   render() {
@@ -154,7 +152,6 @@ class Inventory extends Component {
         </div>
 
         <Modal show={this.state.productFormModal}>
-          <br /> <br /> <br /> <br /> <br /> <br />
           <Modal.Header>
             <Modal.Title>Add Product</Modal.Title>
           </Modal.Header>
@@ -217,7 +214,12 @@ class Inventory extends Component {
           </Modal.Footer>
         </Modal>
         {this.state.displaySnackBar ? (
-          <div id="snackbar">{snackMessage}</div>
+          <div
+            id="snackbar"
+            style={{fontSize:"25px", color:"red", textAlign:"center"}}
+          >
+            {snackMessage}
+          </div>
         ) : null}
       </div>
     );

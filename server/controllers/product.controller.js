@@ -13,7 +13,7 @@ exports.product_create = function(req, res) {
       res.send(err);
       return;
     }
-    res.send({ message: "Product Created successfully!", product });
+    res.send({ product });
   });
 };
 
@@ -49,17 +49,17 @@ exports.product_update = function(req, res) {
       res.send(err);
       return;
     }
-    res.send({ message: "Product Udpated successfully!", product });
+    res.send({ product });
   });
 };
 
 exports.product_delete = function(req, res) {
-  Product.findByIdAndRemove(req.params.id, function(err, result) {
+  Product.findByIdAndRemove(req.params.id, function(err, product) {
     if (err) {
       res.status(400);
       res.send(err);
       return;
     }
-    res.send({ message: "Product Deleted successfully!", result });
+    res.send({ product });
   });
 };

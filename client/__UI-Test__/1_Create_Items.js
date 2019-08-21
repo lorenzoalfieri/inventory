@@ -8,6 +8,7 @@ test("Create a valid item", async t => {
     .typeText("#name", "test")
     .typeText("#quantity", "20")
     .typeText("#unittype", "Kg")
+    .wait(2000)
     .click("#submitform")
     .expect(Selector("#snackbar").innerText)
     .eql("Product Added Successfully!");
@@ -19,6 +20,7 @@ test("Create a non valid item", async t => {
     .typeText("#name", "test")
     .typeText("#quantity", "beaucoup")
     .typeText("#unittype", "Kg")
+    .wait(2000)
     .click("#submitform")
     .expect(Selector("#snackbar").innerText)
     .eql("Product failed to save!");

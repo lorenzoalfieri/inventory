@@ -11,6 +11,7 @@ test("Delete an item", async t => {
       }
     })
     .click("#deletetest120")
+    .wait(2000)
     .expect(Selector("#snackbar").innerText)
     .eql("Product Deleted Successfully!");
 });

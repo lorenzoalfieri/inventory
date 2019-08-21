@@ -6,6 +6,7 @@ test("Edit a valid item", async t => {
   await t
     .click("#edittest20")
     .typeText("#name", "1")
+    .wait(2000)
     .click("#submitform")
     .expect(Selector("#snackbar").innerText)
     .eql("Product Updated Successfully!");
@@ -17,6 +18,7 @@ test("Edit a non valid item", async t => {
     .typeText("#name", "test")
     .typeText("#quantity", "beaucoup")
     .typeText("#unittype", "Kg")
+    .wait(2000)
     .click("#submitform")
     .expect(Selector("#snackbar").innerText)
     .eql("Product Update Failed!");

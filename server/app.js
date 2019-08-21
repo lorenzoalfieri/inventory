@@ -1,14 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 const product = require("./routes/product.route");
 const app = express();
 
 const mongoose = require("mongoose");
 
-let mongoDB =
-  process.env.MONGODB_URI ||
-  "mongodb://<user>:<password>@ds125723.mlab.com:25723/testmongooselba";
+let mongoDB =  process.env.MONGODB_URI || "mongodb://localhost:27017/test";
 
 mongoose.connect(
   mongoDB,
@@ -21,21 +20,25 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.all("/*", function(req, res, next) {
-  // CORS headers
-  res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  // Set custom headers for CORS
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-type,Accept,X-Access-Token,X-Key"
-  );
-  if (req.method == "OPTIONS") {
-    res.status(200).end();
-  } else {
-    next();
+var allowedOrigins = ['http://localhost:3000'];
+
+app.use(cors({
+  origin: function(origin, callback) {
+
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if (!origin)
+      return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+
+    return callback(null, true);
   }
-});
+}));
 
 app.use("/products", product);
 

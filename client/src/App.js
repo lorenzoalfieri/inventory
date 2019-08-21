@@ -1,10 +1,13 @@
 import React from "react";
-import Main from "./components/Main";
+import { Switch, Route } from "react-router-dom";
+import Inventory from "./components/Inventory";
 
 const App = () => (
-  <div>
-    <Main />
-  </div>
+  <main>
+    <Switch>
+      <Route exact path="/" component={Inventory} />
+    </Switch>
+  </main>
 );
 
 export default App;

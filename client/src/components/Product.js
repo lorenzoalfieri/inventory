@@ -98,7 +98,6 @@ class Product extends Component {
         </td>
 
         <Modal show={this.state.productModal}>
-          <br /> <br /> <br /> <br /> <br /> <br />
           <Modal.Header>
             <Modal.Title>Edit Product</Modal.Title>
           </Modal.Header>
