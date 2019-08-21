@@ -59,9 +59,7 @@ describe("Products", () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");
-          res.body.should.have
-            .property("message")
-            .eql("Product Created successfully!");
+          res.body.should.have.property("product");
           res.body.product.should.have.property("name");
           res.body.product.should.have.property("quantity");
           res.body.product.should.have.property("unitType");
@@ -112,9 +110,11 @@ describe("Products", () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a("object");
-            res.body.should.have
-              .property("message")
-              .eql("Product Udpated successfully!");
+            res.body.should.have.property("product");
+            res.body.product.should.have.property("name");
+            res.body.product.should.have.property("quantity");
+            res.body.product.should.have.property("unitType");
+            res.body.product.should.have.property("_id").eql(product.id);
             done();
           });
       });
@@ -135,10 +135,13 @@ describe("Products", () => {
           .request(server)
           .delete("/products/" + product.id + "/delete")
           .end((err, res) => {
+            res.should.have.status(200);
             res.body.should.be.a("object");
-            res.body.should.have
-              .property("message")
-              .eql("Product Deleted successfully!");
+            res.body.should.have.property("product");
+            res.body.product.should.have.property("name");
+            res.body.product.should.have.property("quantity");
+            res.body.product.should.have.property("unitType");
+            res.body.product.should.have.property("_id").eql(product.id);
             done();
           });
       });
